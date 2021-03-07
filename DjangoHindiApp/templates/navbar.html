@@ -1,0 +1,8 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#">Welcome Hi, {{ request.user.username }}</a>
+      <a class="navbar-brand" href="{% url 'logout' %}">Logout</a>
+        
+      </div>
+    </div>
+  </nav>

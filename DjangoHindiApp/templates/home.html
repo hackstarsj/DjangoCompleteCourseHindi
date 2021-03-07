@@ -1,0 +1,119 @@
+ {% extends 'base_template.html' %}
+ {% block title %}
+ Home | Add Tasks
+ {% endblock title %}
+
+ {% block custom_css %}
+ 
+ <style>
+            body {
+                padding-top: 5rem;
+            }
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+                }
+            }
+        </style>
+        {% endblock custom_css %}
+ 
+        {% block body_data %}
+ 
+    <body>
+        {% include 'navbar.html' %}
+          
+          <main class="container">
+            <h2>Add TASKS</h2>   
+            <hr> 
+            <br>
+            <div class="row">       
+            <form action="{% url 'add_tasks' %}" method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Title" class="form-control"/>
+                </div>
+
+                <div class="mb-3">
+                    <label>TASK</label>
+                    <textarea  name="task" placeholder="TASK" class="form-control" rows="5"></textarea>
+                </div>
+                <div class="mb-3">
+                    <label>Thumbnail</label>
+                    <input  name="thumbnail" type="file" class="form-control" />
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-block">ADD TASK</button>
+                </div>
+                <br>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <br>
+            </form>
+            </div>
+            <div class="row">
+                <h2>All TASKS</h2>
+                <br>
+                <hr>
+                <div class="accordion" id="accordionExample">
+                    {% for task in all_tasks %}
+                    <div class="accordion-item">
+                      <h2 class="accordion-header" id="headingOne{{ task.id }}">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne{{ task.id }}" aria-expanded="true" aria-controls="collapseOne">
+                            {{ task.title }}
+                        </button>
+                      </h2>
+                      <div id="collapseOne{{ task.id }}" class="accordion-collapse collapse show" aria-labelledby="headingOne{{ task.id }}" data-bs-parent="#accordionExample">
+                        <div class="accordion-body" style="color:dodgerblue">
+                          <img src="/media/{{ task.thumbnail }}" style="width:100px"/>
+                            <p>{{ task.notes_data }}</p>
+                          <br>
+                          <br>
+                          <hr>
+                          <div class="d-grid gap-2">
+                            <a href="{% url 'delete_task' id=task.id %}" class="btn btn-danger">DELETE</a>
+                        </div>
+                        <br>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'edit_task' id=task.id %}" class="btn btn-primary">EDIT</a>
+                        </div>
+
+
+                        </div>
+                      </div>
+                      <br>
+                      
+                    </div>
+                    {% endfor %}
+                </div>
+                <br>
+                <br>
+            </div>
+            
+            <div class="row">
+            <br>    
+            </div>
+
+          </main>
+
+
+          <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    {% endblock body_data %}
+ 

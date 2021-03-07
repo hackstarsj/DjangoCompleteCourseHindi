@@ -1,0 +1,74 @@
+{% extends 'base_template.html' %}
+{% block title %}
+Edit TASK
+{% endblock title %}
+
+{% block custom_css %}
+<style>
+            body {
+                padding-top: 5rem;
+            }
+            .bd-placeholder-img {
+                font-size: 1.125rem;
+                text-anchor: middle;
+                -webkit-user-select: none;
+                -moz-user-select: none;
+                user-select: none;
+            }
+
+            @media (min-width: 768px) {
+                .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+                }
+            }
+        </style>
+        {% endblock custom_css %}
+        {% block body_data %}
+
+    <body>
+        {% include 'navbar.html' %}
+          
+          <main class="container">
+            <h2>Edit Task #{{ task.id }}</h2>   
+            <hr> 
+            <br>
+            <div class="row">       
+            <form action="{% url 'edit_tasks_save' id=task.id %}" method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label>Title</label>
+                    <input type="text" name="title" placeholder="Title" class="form-control" value="{{ task.title }}"/>
+                </div>
+
+                <div class="mb-3">
+                    <label>TASK</label>
+                    <textarea  name="task" placeholder="TASK" class="form-control" rows="5" >{{ task.notes_data }}</textarea>
+                </div>
+                <div class="d-grid gap-2">
+                    <button type="submit" class="btn btn-success btn-block">Edit TASK</button>
+                </div>
+                <br>
+                {% if messages %}
+                    {% for message in messages %}
+                        {% if message.tags == "error" %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endif %}
+                        {% if message.tags == "success" %}
+                            <div class="alert alert-success">{{ message }}</div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <br>
+            </form>
+            </div>
+                      
+            <div class="row">
+            <br>    
+            </div>
+
+          </main>
+
+
+          <script src="https://getbootstrap.com/docs/5.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
+    {% endblock body_data %}
